@@ -474,6 +474,29 @@ export class SecurePaymentForm extends Component {
 		);
 	}
 
+	renderSofortPaymentBox() {
+		return (
+			<PaymentBox
+				classSet="sofort-payment-box"
+				cart={ this.props.cart }
+				paymentMethods={ this.props.paymentMethods }
+				currentPaymentMethod={ 'sofort' }
+				onSelectPaymentMethod={ this.selectPaymentBox }
+			>
+				<QueryPaymentCountries />
+				<SofortPaymentBox
+					cart={ this.props.cart }
+					transaction={ this.props.transaction }
+					selectedSite={ this.props.selectedSite }
+					redirectTo={ this.props.redirectTo }
+					presaleChatAvailable={ this.props.presaleChatAvailable }
+				>
+					{ this.props.children }
+				</SofortPaymentBox>
+			</PaymentBox>
+		);
+	},
+
 	renderWebPaymentBox() {
 		return (
 			<PaymentBox
@@ -572,6 +595,7 @@ export class SecurePaymentForm extends Component {
 			case 'ideal':
 			case 'p24':
 			case 'brazil-tef':
+			case 'sofort':
 				return (
 					<div>
 						{ this.renderGreatChoiceHeader() }
