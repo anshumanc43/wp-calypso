@@ -54,7 +54,9 @@ export class SiteStyleStep extends Component {
 
 	handleSubmit = event => {
 		event.preventDefault();
-		this.props.submitSiteStyle( this.props.siteStyle, this.getSelectedStyleDataById().theme );
+		const selectedStyle =
+			this.getSelectedStyleDataById() || this.getSelectedStyleDataById( 'default' );
+		this.props.submitSiteStyle( selectedStyle.id, selectedStyle.theme );
 	};
 
 	getSelectedStyleDataById( id ) {
