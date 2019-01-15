@@ -134,6 +134,7 @@ export class SiteStyleStep extends Component {
 const mapDispatchToProps = ( dispatch, ownProps ) => ( {
 	submitSiteStyle: ( siteStyle, themeSlugWithRepo ) => {
 		const { flowName, stepName, goToNextStep } = ownProps;
+		dispatch( setSiteStyle( siteStyle ) );
 		SignupActions.submitSignupStep(
 			{
 				processingMessage: i18n.translate( 'Collecting your information' ),
