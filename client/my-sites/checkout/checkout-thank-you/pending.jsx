@@ -40,7 +40,7 @@ class CheckoutPending extends PureComponent {
 
 	componentWillReceiveProps( nextProps ) {
 		const { transaction, error } = nextProps;
-		const { translate, showErrorNotice, siteSlug } = this.props;
+		const { translate, showErrorNotice, siteSlug, orderId } = this.props;
 
 		const retryOnError = () => {
 			page( `/checkout/${ siteSlug }` );
@@ -67,7 +67,12 @@ class CheckoutPending extends PureComponent {
 				return;
 			}
 
-			// If the processing status indicates that there was something wrong.
+			if ( ORDER_TRANSACTION_STATUS.ASYNC_PENDING === transaction.processingStatus ) {
+				page( `/me/purchases/pending/${ orderId }` ); //todo: fix route
+
+				return;
+			}
+
 			// It could be because the user has cancelled the payment, or because the payment failed after being authorized
 			if (
 				ORDER_TRANSACTION_STATUS.ERROR === processingStatus ||
@@ -97,22 +102,7 @@ class CheckoutPending extends PureComponent {
 	}
 
 	render() {
-		const { orderId, siteSlug, translate, transaction } = this.props;
-
-		if ( transaction && ORDER_TRANSACTION_STATUS.ASYNC_PENDING === transaction.processingStatus ) {
-			return (
-				<Main className="checkout-thank-you__pending">
-					<EmptyContent
-						illustration={ '/calypso/images/illustrations/illustration-shopping-bags.svg' }
-						illustrationWidth={ 500 }
-						title={ translate( 'Payment pending…' ) }
-						line={ translate(
-							"We're currently finalizing your order. Please Check back later once funds have cleared!"
-						) }
-					/>
-				</Main>
-			);
-		}
+		const { orderId, siteSlug, translate } = this.props;
 
 		return (
 			<Main className="checkout-thank-you__pending">
