@@ -97,7 +97,22 @@ class CheckoutPending extends PureComponent {
 	}
 
 	render() {
-		const { orderId, siteSlug, translate } = this.props;
+		const { orderId, siteSlug, translate, transaction } = this.props;
+
+		if ( transaction && ORDER_TRANSACTION_STATUS.ASYNC_PENDING === transaction.processingStatus ) {
+			return (
+				<Main className="checkout-thank-you__pending">
+					<EmptyContent
+						illustration={ '/calypso/images/illustrations/illustration-shopping-bags.svg' }
+						illustrationWidth={ 500 }
+						title={ translate( 'Payment pending…' ) }
+						line={ translate(
+							"We're currently finalizing your order. Please Check back later once funds have cleared!"
+						) }
+					/>
+				</Main>
+			);
+		}
 
 		return (
 			<Main className="checkout-thank-you__pending">
